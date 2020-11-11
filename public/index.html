@@ -2,38 +2,76 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>FFmpeg.wasm</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+  <title>Video to GIF</title>
+  <style type="text/css">
+      .selector-for-some-widget {
+          box-sizing: content-box;
+      }
+  </style>
 </head>
 <body>
-  <h3>Upload a video to transcode to mp4 (x264) and play!</h3>
-  <img id="output-video" controls></img>
-  <br/>
-  <input type="file" id="uploader">
-  <p id="message"></p>
+  <main class="container">
 
+    <h1>Video to GIF</h1>
+
+    <section>
+      <h2>Input</h2>
+      <input type="file" id="source-video">
+      <button id="convert-button">Convert</button>
+    </section>
+
+    <section>
+      <h2>Settings</h2>
+    </section>
+
+    <section>
+      <h2>Output</h2>
+      <img class="img-fluid" id="output-image" alt="Output Image">
+      <a id="download-link" download>Download</a>
+    </section>
+  </main>
+
+  <!-- Import Javascript Libraries -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+          integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+          crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+          integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+          crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+          integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+          crossorigin="anonymous"></script>
   <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.9.4/dist/ffmpeg.min.js"></script>
+
   <script>
+    // FFmpeg
     const {createFFmpeg, fetchFile} = FFmpeg;
     const ffmpeg = createFFmpeg({log: true});
 
-    const transcode = async ({target: {files}}) => {
-      const message = document.getElementById('message');
-      const {name} = files[0];
-      message.innerHTML = 'Loading ffmpeg-core.js';
-      await ffmpeg.load();
-      ffmpeg.FS('writeFile', name, await fetchFile(files[0]));
-      message.innerHTML = 'Start transcoding';
-      await ffmpeg.run('-i', name, 'output.gif');
-      message.innerHTML = 'Complete transcoding';
-      const data = ffmpeg.FS('readFile', 'output.gif');
+    // Elements
+    const sourceVideo = document.getElementById('source-video')
+    const convertButton = document.getElementById('convert-button')
+    const outputImage = document.getElementById('output-image')
+    const downloadLink = document.getElementById('download-link')
 
-      const video = document.getElementById('output-video');
-      video.src = URL.createObjectURL(new Blob([data.buffer], {type: 'image/gif'}));
+    window.onload = () => {
+      convertButton.onclick = async () => {
+        const file = sourceVideo.files[0]
+        if (file == null) return
+        const fileName = file.name
+        await ffmpeg.load();
+        ffmpeg.FS('writeFile', fileName, await fetchFile(file));
+        await ffmpeg.run('-i', fileName, 'output.gif');
+        const data = ffmpeg.FS('readFile', 'output.gif');
+        const outputUrl = URL.createObjectURL(new Blob([data.buffer], {type: 'image/gif'}))
+        outputImage.src = outputUrl;
+        downloadLink.href = outputUrl;
+      }
     }
-    const elm = document.getElementById('uploader');
-    elm.addEventListener('change', transcode);
   </script>
 </body>
 </html>
