@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>FFmpeg.wasm</title>
+</head>
+<body>
+  <h3>Upload a video to transcode to mp4 (x264) and play!</h3>
+  <img id="output-video" controls></img>
+  <br/>
+  <input type="file" id="uploader">
+  <p id="message"></p>
+
+  <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.9.4/dist/ffmpeg.min.js"></script>
+  <script>
+    const {createFFmpeg, fetchFile} = FFmpeg;
+    const ffmpeg = createFFmpeg({log: true});
+
+    const transcode = async ({target: {files}}) => {
+      const message = document.getElementById('message');
+      const {name} = files[0];
+      message.innerHTML = 'Loading ffmpeg-core.js';
+      await ffmpeg.load();
+      ffmpeg.FS('writeFile', name, await fetchFile(files[0]));
+      message.innerHTML = 'Start transcoding';
+      await ffmpeg.run('-i', name, 'output.gif');
+      message.innerHTML = 'Complete transcoding';
+      const data = ffmpeg.FS('readFile', 'output.gif');
+
+      const video = document.getElementById('output-video');
+      video.src = URL.createObjectURL(new Blob([data.buffer], {type: 'image/gif'}));
+    }
+    const elm = document.getElementById('uploader');
+    elm.addEventListener('change', transcode);
+  </script>
+</body>
+</html>
