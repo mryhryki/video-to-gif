@@ -1,17 +1,26 @@
 import Head from 'next/head'
 import {useState} from 'react'
+import {createFFmpeg, fetchFile} from '@ffmpeg/core'
 import styles from '../styles/index.module.css'
+// import 'https://unpkg.com/@ffmpeg/ffmpeg@0.9.4/dist/ffmpeg.min.js'
+
+// const ffmpeg = createFFmpeg({log: true});
 
 const Home = () => {
   const [file, setFile] = useState(null)
   const [gifUrl, setGifUrl] = useState('')
   console.log(file)
 
-  const transcode = () => {
+  const transcode = async () => {
     if (file == null) {
       return
     }
-    console.log("TODO: transcode")
+    // const name = file.name
+    // await ffmpeg.load();
+    // ffmpeg.FS('writeFile', name, await fetchFile(file));
+    // await ffmpeg.run('-i', name, 'output.gif');
+    // const data = ffmpeg.FS('readFile', 'output.gif');
+    // setGifUrl(URL.createObjectURL(new Blob([data.buffer], {type: 'image/gif'})));
   }
 
   return (
