@@ -11,6 +11,10 @@
       .selector-for-some-widget {
           box-sizing: content-box;
       }
+
+      #output-section {
+          display: none;
+      }
   </style>
 </head>
 <body>
@@ -20,15 +24,19 @@
 
     <section>
       <h2>Input</h2>
-      <input type="file" id="source-video">
-      <button id="convert-button">Convert</button>
+      <div class="custom-file">
+        <input type="file" id="input-video" class="custom-file-input" aria-describedby="inputGroupFileAddon03">
+        <label class="custom-file-label" for="input-video">Choose file</label>
+      </div>
+      <button id="convert-button" type="button" class="btn btn-primary">Convert</button>
     </section>
 
     <section>
       <h2>Settings</h2>
+      <input class="container-fluid" id="frame-rate" type="range" min="1" value="10" max="30" step="1">
     </section>
 
-    <section>
+    <section id="output-section">
       <h2>Output</h2>
       <img class="img-fluid" id="output-image" alt="Output Image">
       <a id="download-link" download>Download</a>
@@ -51,25 +59,43 @@
     // FFmpeg
     const {createFFmpeg, fetchFile} = FFmpeg;
     const ffmpeg = createFFmpeg({log: true});
+    ffmpeg.load()
 
     // Elements
-    const sourceVideo = document.getElementById('source-video')
+    const inputVideo = document.getElementById('input-video')
     const convertButton = document.getElementById('convert-button')
+    const frameRate = document.getElementById('frame-rate')
+    const outputSection = document.getElementById('output-section')
     const outputImage = document.getElementById('output-image')
     const downloadLink = document.getElementById('download-link')
 
+    // Config
+    const getConfig = () => ({
+      frameRate: frameRate.value
+    })
+
+    // Style Functions
+    const showOutputSection = (outputUrl) => {
+      if (outputUrl == null) return
+      outputImage.src = outputUrl;
+      downloadLink.href = outputUrl;
+      outputSection.style.display = 'block'
+    }
+
+    // FFmpeg
+    const transcode = async (file) => {
+      if (file == null) return null
+      ffmpeg.FS('writeFile', file.name, await fetchFile(file));
+      const config = getConfig()
+      await ffmpeg.run('-i', file.name, '-r', config.frameRate, '-vf', 'fade=t=in:st=0:d=0.05', 'output.gif');
+      return URL.createObjectURL(new Blob([ffmpeg.FS('readFile', 'output.gif').buffer], {type: 'image/gif'}))
+    }
+
     window.onload = () => {
-      convertButton.onclick = async () => {
-        const file = sourceVideo.files[0]
-        if (file == null) return
-        const fileName = file.name
-        await ffmpeg.load();
-        ffmpeg.FS('writeFile', fileName, await fetchFile(file));
-        await ffmpeg.run('-i', fileName, 'output.gif');
-        const data = ffmpeg.FS('readFile', 'output.gif');
-        const outputUrl = URL.createObjectURL(new Blob([data.buffer], {type: 'image/gif'}))
-        outputImage.src = outputUrl;
-        downloadLink.href = outputUrl;
+      convertButton.onclick = () => {
+        showOutputSection(null)
+        frameRate
+        transcode(inputVideo.files[0]).then(showOutputSection)
       }
     }
   </script>
