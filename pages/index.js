@@ -12,10 +12,7 @@ const Home = () => {
   const [gifUrl, setGifUrl] = useState('')
   const [logs, setLogs] = useState([])
 
-  useEffect(() => {
-    setSupport('SharedArrayBuffer' in window)
-    initFFmpeg(({type, message}) => setLogs([...logs, `${type}: ${message}`]))
-  }, [])
+  useEffect(() => setSupport('SharedArrayBuffer' in window), [])
 
   if (!support) {
     return (
@@ -24,10 +21,9 @@ const Home = () => {
   }
 
   const transcode = () => {
-    if (file == null) {
-      return
+    if (file != null) {
+      convVideoToGif(file, {frameRate}, setLogs).then(setGifUrl).catch(console.error)
     }
-    convVideoToGif(file, {frameRate}).then(setGifUrl).catch(console.error)
   }
 
   return (
@@ -68,7 +64,7 @@ const Home = () => {
               </button>
             </p>
             <p>
-              <Log logs={logs} />
+              <Log logs={logs}/>
             </p>
             {gifUrl !== '' && (
               <div>
@@ -76,14 +72,14 @@ const Home = () => {
               </div>
             )}
           </>
-          ) : <Unsupported/>}
-          </main>
+        ) : <Unsupported/>}
+      </main>
 
-          <footer className={styles.footer}>
-          &copy; 2020 <a href="https://hyiromori.com/" target="_blank" rel="noreferrer noopener">hyiromori</a>
-          </footer>
-          </div>
-          )
-          }
+      <footer className={styles.footer}>
+        &copy; 2020 <a href="https://hyiromori.com/" target="_blank" rel="noreferrer noopener">hyiromori</a>
+      </footer>
+    </div>
+  )
+}
 
-          export default Home;
+export default Home;
