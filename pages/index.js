@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import {useState, useEffect} from 'react'
 import styles from '../styles/index.module.css'
-import {convVideoToGif} from "./lib/ffmpeg";
+import {convVideoToGif} from "../lib/ffmpeg";
 
 const Home = () => {
   const [support, setSupport] = useState(false)
