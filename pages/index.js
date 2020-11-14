@@ -1,23 +1,24 @@
 import Head from 'next/head'
 import {useState} from 'react'
 import styles from '../styles/index.module.css'
+import {convVideoToGif} from "./lib/ffmpeg";
 
 const Home = () => {
   const [file, setFile] = useState(null)
   const [gifUrl, setGifUrl] = useState('')
-  console.log(file)
 
   const transcode = () => {
     if (file == null) {
       return
     }
-    console.log("TODO: transcode")
+    convVideoToGif(file).then(setGifUrl).catch(console.error)
   }
 
   return (
     <div className={styles.container}>
       <Head>
         <title>Video to GIF</title>
+        <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.9.4/dist/ffmpeg.min.js"/>
       </Head>
 
       <main>
@@ -26,7 +27,7 @@ const Home = () => {
           <input
             type="file"
             onChange={(event) => {
-              setFile(event.target.value)
+              setFile(event.target.files[0])
             }}
           />
         </p>
