@@ -2,6 +2,7 @@ import Head from 'next/head'
 import {useState, useEffect} from 'react'
 import styles from '../styles/index.module.css'
 import {convVideoToGif} from "../lib/ffmpeg";
+import Unsupported from "../components/unsupported";
 
 const Home = () => {
   const [support, setSupport] = useState(false)
@@ -33,37 +34,41 @@ const Home = () => {
 
       <main>
         <h1>Video to GIF</h1>
-        <p>
-          <input
-            type="file"
-            onChange={(event) => {
-              setFile(event.target.files[0])
-            }}
-          />
-        </p>
-        <p>
-          <input
-            type="range"
-            value={frameRate}
-            min="1"
-            max="30"
-            step="1"
-            onChange={(event) => {
-              setFrameRate(event.target.value)
-            }}
-          />
-          <span>{frameRate}</span>
-        </p>
-        <p>
-          <button onClick={transcode}>
-            Convert to GIF
-          </button>
-        </p>
-        {gifUrl !== '' && (
-          <div>
-            <img className={styles.gif} alt="Output GIF" src={gifUrl}/>
-          </div>
-        )}
+        {support ? (
+          <>
+            <p>
+              <input
+                type="file"
+                onChange={(event) => {
+                  setFile(event.target.files[0])
+                }}
+              />
+            </p>
+            <p>
+              <input
+                type="range"
+                value={frameRate}
+                min="1"
+                max="30"
+                step="1"
+                onChange={(event) => {
+                  setFrameRate(event.target.value)
+                }}
+              />
+              <span>{frameRate}</span>
+            </p>
+            <p>
+              <button onClick={transcode}>
+                Convert to GIF
+              </button>
+            </p>
+            {gifUrl !== '' && (
+              <div>
+                <img className={styles.gif} alt="Output GIF" src={gifUrl}/>
+              </div>
+            )}
+          </>
+        ) : <Unsupported/>}
       </main>
 
       <footer className={styles.footer}>
