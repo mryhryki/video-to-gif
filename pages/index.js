@@ -1,17 +1,27 @@
 import Head from 'next/head'
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import styles from '../styles/index.module.css'
 import {convVideoToGif} from "./lib/ffmpeg";
 
 const Home = () => {
+  const [support, setSupport] = useState(false)
   const [file, setFile] = useState(null)
+  const [frameRate, setFrameRate] = useState(10)
   const [gifUrl, setGifUrl] = useState('')
+
+  useEffect(() => setSupport('SharedArrayBuffer' in window), [])
+
+  if (!support) {
+    return (
+      <h1>このブラウザでは実行できません</h1>
+    )
+  }
 
   const transcode = () => {
     if (file == null) {
       return
     }
-    convVideoToGif(file).then(setGifUrl).catch(console.error)
+    convVideoToGif(file, {frameRate}).then(setGifUrl).catch(console.error)
   }
 
   return (
@@ -32,14 +42,27 @@ const Home = () => {
           />
         </p>
         <p>
+          <input
+            type="range"
+            value={frameRate}
+            min="1"
+            max="30"
+            step="1"
+            onChange={(event) => {
+              setFrameRate(event.target.value)
+            }}
+          />
+          <span>{frameRate}</span>
+        </p>
+        <p>
           <button onClick={transcode}>
             Convert to GIF
           </button>
         </p>
         {gifUrl !== '' && (
-          <p>
-            <img alt="Output GIF" src={gifUrl}/>
-          </p>
+          <div>
+            <img className={styles.gif} alt="Output GIF" src={gifUrl}/>
+          </div>
         )}
       </main>
 

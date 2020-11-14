@@ -7,6 +7,10 @@
     align-items: center;
 }
 
+.gif {
+  max-width: 100%;
+}
+
 .footer {
     background-color: #333;
     bottom: 0;
