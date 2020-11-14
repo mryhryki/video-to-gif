@@ -14,12 +14,6 @@ const Home = () => {
 
   useEffect(() => setSupport('SharedArrayBuffer' in window), [])
 
-  if (!support) {
-    return (
-      <h1>このブラウザでは実行できません</h1>
-    )
-  }
-
   const transcode = () => {
     if (file != null) {
       convVideoToGif(file, {frameRate}, setLogs).then(setGifUrl).catch(console.error)
@@ -27,58 +21,58 @@ const Home = () => {
   }
 
   return (
-    <div className={styles.container}>
+    <>
       <Head>
         <title>Video to GIF</title>
         <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.9.4/dist/ffmpeg.min.js"/>
       </Head>
 
-      <main>
-        <h1>Video to GIF</h1>
-        {support ? (
-          <>
-            <p>
-              <input
-                type="file"
-                onChange={(event) => {
-                  setFile(event.target.files[0])
-                }}
-              />
-            </p>
-            <p>
-              <input
-                type="range"
-                value={frameRate}
-                min="1"
-                max="30"
-                step="1"
-                onChange={(event) => {
-                  setFrameRate(event.target.value)
-                }}
-              />
-              <span>{frameRate}</span>
-            </p>
-            <p>
-              <button onClick={transcode}>
-                Convert to GIF
-              </button>
-            </p>
-            <p>
-              <Log logs={logs}/>
-            </p>
-            {gifUrl !== '' && (
-              <div>
-                <img className={styles.gif} alt="Output GIF" src={gifUrl}/>
+      <div className={styles.wrapper}>
+        <main className={styles.content}>
+          <h1>Video to GIF</h1>
+          {support ? (
+            <>
+              <div className={styles.centering}>
+                <input type="file" onChange={(event) => setFile(event.target.files[0])}/>
               </div>
-            )}
-          </>
-        ) : <Unsupported/>}
-      </main>
+              <div className={styles.centering}>
+                <h2>フレームレート</h2>
+                <input
+                  type="range" min="1" max="30" step="1"
+                  value={frameRate}
+                  onChange={(event) => setFrameRate(event.target.value)}
+                />
+                <span>{frameRate}FPS</span>
+              </div>
+              <div className={styles.centering}>
+                <button className={styles.button} onClick={transcode} disabled={file == null}>
+                  Convert to GIF
+                </button>
+              </div>
+              <div className={styles.centering}>
+                <Log logs={logs}/>
+              </div>
+              {gifUrl !== '' && (
+                <section className={styles.output}>
+                  <img className={styles.gif} alt="Output GIF" src={gifUrl}/>
+                  <a className={styles.button} href={gifUrl} download={`${file.name}.gif`}>ダウンロード</a>
+                </section>
+              )}
+            </>
+          ) : <Unsupported/>}
+        </main>
+      </div>
 
       <footer className={styles.footer}>
-        &copy; 2020 <a href="https://hyiromori.com/" target="_blank" rel="noreferrer noopener">hyiromori</a>
+        &copy; 2020{' '}
+        <a
+          href="https://hyiromori.com/"
+          target="_blank"
+          rel="noreferrer noopener"
+          className={styles.copyright}
+        >hyiromori</a>
       </footer>
-    </div>
+    </>
   )
 }
 
