@@ -1,16 +1,21 @@
 import Head from 'next/head'
-import {useState, useEffect} from 'react'
+import {useState, useEffect, useCallback} from 'react'
 import styles from '../styles/index.module.css'
-import {convVideoToGif} from "../lib/ffmpeg";
+import {convVideoToGif, initFFmpeg} from "../lib/ffmpeg";
 import Unsupported from "../components/unsupported";
+import Log from "../components/log";
 
 const Home = () => {
   const [support, setSupport] = useState(false)
   const [file, setFile] = useState(null)
   const [frameRate, setFrameRate] = useState(10)
   const [gifUrl, setGifUrl] = useState('')
+  const [logs, setLogs] = useState([])
 
-  useEffect(() => setSupport('SharedArrayBuffer' in window), [])
+  useEffect(() => {
+    setSupport('SharedArrayBuffer' in window)
+    initFFmpeg(({type, message}) => setLogs([...logs, `${type}: ${message}`]))
+  }, [])
 
   if (!support) {
     return (
@@ -62,20 +67,23 @@ const Home = () => {
                 Convert to GIF
               </button>
             </p>
+            <p>
+              <Log logs={logs} />
+            </p>
             {gifUrl !== '' && (
               <div>
                 <img className={styles.gif} alt="Output GIF" src={gifUrl}/>
               </div>
             )}
           </>
-        ) : <Unsupported/>}
-      </main>
+          ) : <Unsupported/>}
+          </main>
 
-      <footer className={styles.footer}>
-        &copy; 2020 <a href="https://hyiromori.com/" target="_blank" rel="noreferrer noopener">hyiromori</a>
-      </footer>
-    </div>
-  )
-}
+          <footer className={styles.footer}>
+          &copy; 2020 <a href="https://hyiromori.com/" target="_blank" rel="noreferrer noopener">hyiromori</a>
+          </footer>
+          </div>
+          )
+          }
 
-export default Home;
+          export default Home;
