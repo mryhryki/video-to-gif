@@ -34,6 +34,14 @@
     opacity: 0.5;
 }
 
+.status {
+    background-color: antiquewhite;
+    display: inline-block;
+    border-radius: 4px;
+    padding: 16px 48px;
+    text-align: center;
+}
+
 .output {
     text-align: center;
 }

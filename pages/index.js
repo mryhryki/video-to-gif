@@ -1,22 +1,31 @@
 import Head from 'next/head'
-import {useState, useEffect, useCallback} from 'react'
+import {useState, useEffect} from 'react'
 import styles from '../styles/index.module.css'
-import {convVideoToGif, initFFmpeg} from "../lib/ffmpeg";
+import {convVideoToGif} from "../lib/ffmpeg";
 import Unsupported from "../components/unsupported";
-import Log from "../components/log";
 
 const Home = () => {
   const [support, setSupport] = useState(false)
   const [file, setFile] = useState(null)
   const [frameRate, setFrameRate] = useState(10)
+  const [status, setStatus] = useState(null)
   const [gifUrl, setGifUrl] = useState('')
-  const [logs, setLogs] = useState([])
 
   useEffect(() => setSupport('SharedArrayBuffer' in window), [])
 
   const transcode = () => {
     if (file != null) {
-      convVideoToGif(file, {frameRate}, setLogs).then(setGifUrl).catch(console.error)
+      setGifUrl('')
+      setStatus('Converting...')
+      convVideoToGif(file, {frameRate})
+        .then((url) => {
+          setStatus(null)
+          setGifUrl(url)
+        })
+        .catch((err) => {
+          setStatus(`ERROR: ${err.message}`)
+          console.error(err)
+        })
     }
   }
 
@@ -33,25 +42,33 @@ const Home = () => {
           {support ? (
             <>
               <div className={styles.centering}>
-                <input type="file" onChange={(event) => setFile(event.target.files[0])}/>
+                <input
+                  type="file"
+                  onChange={(event) => setFile(event.target.files[0])}
+                  accept="video/*"
+                />
               </div>
               <div className={styles.centering}>
-                <h2>フレームレート</h2>
-                <input
-                  type="range" min="1" max="30" step="1"
-                  value={frameRate}
-                  onChange={(event) => setFrameRate(event.target.value)}
-                />
-                <span>{frameRate}FPS</span>
+                <h2>Frame Rate</h2>
+                <div>
+                  <input
+                    type="range" min="1" max="30" step="1"
+                    value={frameRate}
+                    onChange={(event) => setFrameRate(event.target.value)}
+                  />
+                </div>
+                <div>{frameRate}FPS</div>
               </div>
               <div className={styles.centering}>
                 <button className={styles.button} onClick={transcode} disabled={file == null}>
                   Convert to GIF
                 </button>
               </div>
-              <div className={styles.centering}>
-                <Log logs={logs}/>
-              </div>
+              {status != null && (
+                <section className={styles.centering}>
+                  <div className={styles.status}>{status}</div>
+                </section>
+              )}
               {gifUrl !== '' && (
                 <section className={styles.output}>
                   <img className={styles.gif} alt="Output GIF" src={gifUrl}/>
