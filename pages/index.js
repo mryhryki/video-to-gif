@@ -32,13 +32,27 @@ const Home = () => {
   return (
     <>
       <Head>
+        <meta property="og:title" content="Video to GIF"/>
+        <meta property="og:description" content="Convert video to gif on browser. powered by ffmpeg.wasm."/>
+        <meta property="og:image" content="https://video-to-gif.vercel.app/logo.png"/>
+        <meta property="og:url" content="https://video-to-gif.vercel.app/"/>
+        <meta property="og:site_name" content="Video to GIF"/>
+        <meta property="og:locale" content="ja-JP"/>
+        <meta property="og:type" content="website"/>
+        <meta name="twitter:card" content="summary"/>
+        <meta name="twitter:title" content="Video to GIF"/>
+        <meta name="twitter:description" content="Convert video to gif on browser. powered by ffmpeg.wasm."/>
+        <meta name="twitter:image" content="https://video-to-gif.vercel.app/logo.png"/>
+        <meta name="twitter:site" content="@hyiromori"/>
         <title>Video to GIF</title>
         <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.9.4/dist/ffmpeg.min.js"/>
       </Head>
 
       <div className={styles.wrapper}>
         <main className={styles.content}>
-          <h1>Video to GIF</h1>
+          <h1 className={styles.centering}>
+            <img className={styles.logo} width="320" src="/logo.png" alt="Video to GIF Logo"/>
+          </h1>
           {support ? (
             <>
               <div className={styles.centering}>
