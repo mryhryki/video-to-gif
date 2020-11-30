@@ -14,7 +14,7 @@ const Home = () => {
   useEffect(() => setSupport('SharedArrayBuffer' in window), [])
 
   const transcode = () => {
-    if (file != null) {
+    if (status == null && file != null) {
       setGifUrl('')
       setStatus('Converting...')
       convVideoToGif(file, {frameRate})
@@ -74,7 +74,7 @@ const Home = () => {
                 <div>{frameRate}FPS</div>
               </div>
               <div className={styles.centering}>
-                <button className={styles.button} onClick={transcode} disabled={file == null}>
+                <button className={styles.button} onClick={transcode} disabled={status != null || file == null}>
                   Convert to GIF
                 </button>
               </div>
@@ -86,7 +86,7 @@ const Home = () => {
               {gifUrl !== '' && (
                 <section className={styles.output}>
                   <img className={styles.gif} alt="Output GIF" src={gifUrl}/>
-                  <a className={styles.button} href={gifUrl} download={`${file.name}.gif`}>ダウンロード</a>
+                  <a className={styles.button} href={gifUrl} download={`${file.name}.gif`}>Download GIF</a>
                 </section>
               )}
             </>

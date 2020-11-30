@@ -49,6 +49,7 @@
 .gif {
     text-align: center;
     max-width: 100%;
+    border: 1px solid silver;
 }
 
 .footer {
