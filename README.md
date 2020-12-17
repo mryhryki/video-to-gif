@@ -8,4 +8,4 @@ https://video-to-gif.vercel.app/
 
 ## HOW TO USE
 
-![how to use](./gif/howtouse.gif)
+![how to use](https://i.gyazo.com/236042299cc18c6a6282efa82dea14b2.gif)
