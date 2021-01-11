@@ -1,6 +1,6 @@
 # video-to-gif
 
-ffmpeg.wasm を使ってブラウザのみで動画をGIFに変換できるツールです
+ffmpeg.wasm を使ってブラウザのみで動画をGIFに変換できる実験的なツールです。
 
 ## LINK
 
