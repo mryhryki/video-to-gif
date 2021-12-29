@@ -43,7 +43,7 @@ const Home = () => {
         <meta name="twitter:title" content="Video to GIF"/>
         <meta name="twitter:description" content="Convert video to gif on browser. powered by ffmpeg.wasm."/>
         <meta name="twitter:image" content="https://video-to-gif.vercel.app/logo.png"/>
-        <meta name="twitter:site" content="@hyiromori"/>
+        <meta name="twitter:site" content="@mryhryki"/>
         <title>Video to GIF</title>
         <script src="/ffmpeg.min.js"/>
       </Head>
@@ -97,11 +97,11 @@ const Home = () => {
       <footer className={styles.footer}>
         &copy; 2020{' '}
         <a
-          href="https://hyiromori.com/"
+          href="https://mryhryki.com/"
           target="_blank"
           rel="noreferrer noopener"
           className={styles.copyright}
-        >hyiromori</a>
+        >mryhryki</a>
       </footer>
     </>
   )
