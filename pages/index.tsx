@@ -68,7 +68,7 @@ const Home = () => {
                   <input
                     type="range" min="1" max="30" step="1"
                     value={frameRate}
-                    onChange={(event) => setFrameRate(event.target.value)}
+                    onChange={(event) => setFrameRate(parseInt(event.target.value, 10))}
                   />
                 </div>
                 <div>{frameRate}FPS</div>
@@ -86,7 +86,7 @@ const Home = () => {
               {gifUrl !== '' && (
                 <section className={styles.output}>
                   <img className={styles.gif} alt="Output GIF" src={gifUrl}/>
-                  <a className={styles.button} href={gifUrl} download={`${file.name}.gif`}>Download GIF</a>
+                  <a className={styles.button} href={gifUrl} download={`${file?.name ?? "image"}.gif`}>Download GIF</a>
                 </section>
               )}
             </>
