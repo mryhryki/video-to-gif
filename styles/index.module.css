@@ -1,20 +1,56 @@
-.wrapper {
-    bottom: 37px;
+.header {
+    align-items: center;
+    border-bottom: 1px solid silver;
+    display: flex;
+    height: 65px;
     left: 0;
-    overflow: scroll;
+    padding: 8px;
     position: fixed;
     right: 0;
     top: 0;
 }
 
-.content {
-    max-width: 960px;
-    margin: 0 auto;
+.logo {
+    border-radius: 2px;
+    height: 48px;
+    margin-right: 8px;
+    width: 48px;
 }
 
-.centering {
-    text-align: center;
-    margin: 8px 0;
+.content {
+    bottom: 36px;
+    left: 0;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    position: fixed;
+    right: 321px;
+    top: 65px;
+}
+
+.history {
+    border-left: 1px solid silver;
+    bottom: 36px;
+    max-width: 320px;
+    min-width: 320px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    position: fixed;
+    right: 0;
+    top: 65px;
+}
+
+.historyCard{
+    margin: 16px;
+}
+
+.historyDatetime{
+    margin: 8px;
+}
+
+.historyGif {
+    margin: 8px;
+    max-width: calc(100% - 16px);
+    object-fit: contain;
 }
 
 .button {
