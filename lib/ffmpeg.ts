@@ -22,12 +22,14 @@ export interface ConvertSetting {
   frameRate: number;
   sizeType: "height" | "width";
   sizePixel: number;
+  rangeStart: number;
+  rangeEnd: number;
 }
 
 
 export const convVideoToGif = async (file: File, settings: ConvertSetting): Promise<Buffer> => {
   const ffmpeg = await loadFFmpeg();
-  const { frameRate, sizeType, sizePixel } = settings;
+  const { frameRate, sizeType, sizePixel, rangeStart, rangeEnd } = settings;
 
   const { fetchFile } = getFFmpeg();
   ffmpeg.FS("writeFile", file.name, await fetchFile(file));
@@ -35,7 +37,9 @@ export const convVideoToGif = async (file: File, settings: ConvertSetting): Prom
   await ffmpeg.run(
     "-i", file.name,
     "-r", `${frameRate}`,
-    "-vf", `scale=${sizeType === "width" ? sizePixel : -1}:${sizeType === "height" ? sizePixel : -1},fade=t=in:st=0:d=0.05`,
+    "-ss", `${rangeStart}`,
+    "-to", `${rangeEnd}`,
+    "-vf", `scale=${sizeType === "width" ? sizePixel : -1}:${sizeType === "height" ? sizePixel : -1},fade=t=in:st=${rangeStart}:d=0.05`,
     "output.gif",
   );
   return ffmpeg.FS("readFile", "output.gif").buffer;

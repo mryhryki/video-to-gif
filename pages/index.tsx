@@ -8,16 +8,15 @@ import { Header } from "../components/header";
 import { Content } from "../components/content";
 import { History } from "../components/history";
 import { Footer } from "../components/footer";
-import { useVideoFile } from "../lib/hooks/use_video_file";
 import { useConvertSetting } from "../lib/hooks/use_convert_setting";
+import { Settings } from "../components/settings";
+import { Status } from "../components/status";
 
 const Home = () => {
   const [status, setStatus] = useState(null);
-  const { convertSetting, updateConvertSetting } = useConvertSetting();
-  const { setVideoFile, videoFile, videoUrl } = useVideoFile();
+  const { setVideoFile, videoFile, videoUrl, convertSetting, updateConvertSetting } = useConvertSetting();
   const { addHistory, histories } = useHistory();
 
-  const { frameRate } = convertSetting;
   const FFmpegErrorMessage = checkCanUseFFmpeg();
 
   const transcode = async (): Promise<void> => {
@@ -58,49 +57,14 @@ const Home = () => {
           {videoFile == null ? (
             <SelectVideoFile onVideoFileSelected={setVideoFile}/>
           ) : (
-            <>
-              <div>
-                <div>
-                  Frame Rate
-                  <input
-                    type="range" min="1" max="30" step="1"
-                    value={convertSetting.frameRate}
-                    onChange={(event) => updateConvertSetting({ frameRate: parseInt(event.target.value, 10) })}
-                  />
-                  {frameRate}FPS
-                </div>
-                <div>
-                  <select
-                    onChange={(event) => {
-                      console.debug(event)
-                      updateConvertSetting({ sizeType: event.target.value === "height" ? "height" : "width" })
-                    }}
-                    value={convertSetting.sizeType}
-                  >
-                    <option value="width">Width</option>
-                    <option value="height">Height</option>
-                  </select>
-                  <input
-                    type="number"
-                    value={convertSetting.sizePixel}
-                    onChange={(event) => updateConvertSetting({ sizePixel: parseInt(event.target.value, 10) })}
-                  />
-                </div>
-              </div>
-              <div>
-                <button onClick={transcode} disabled={status != null || videoFile == null}>
-                  Convert
-                </button>
-              </div>
-            </>
+            <Settings
+              convertSetting={convertSetting}
+              updateConvertSetting={updateConvertSetting}
+              videoUrl={videoUrl}
+              onConvert={transcode}
+            />
           )}
-          <>
-            {status != null && (
-              <section>
-                <div>{status}</div>
-              </section>
-            )}
-          </>
+          <Status>{status}</Status>
         </Content>
         <History histories={histories}/>
         <Footer/>
