@@ -1,8 +1,8 @@
 const getFFmpeg = () => {
   if (!("FFmpeg" in window)) {
-    throw new Error("FFmpeg がロードできません");
+    throw new Error("FFmpeg could not be loaded.");
   } else if (!("SharedArrayBuffer" in window)) {
-    throw new Error("SharedArrayBuffer が使用できません");
+    throw new Error("SharedArrayBuffer could not be used.");
   }
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return (window as any).FFmpeg;
@@ -36,15 +36,11 @@ export const convVideoToGif = async (file: File, options: Options): Promise<Buff
   return ffmpeg.FS("readFile", "output.gif").buffer;
 };
 
-let canUseFFmpeg: boolean | null = null;
-export const checkCanUseFFmpeg = (): boolean => {
+export const checkCanUseFFmpeg = (): /* errorMessage: */ string | null => {
   try {
-    if (canUseFFmpeg != null) {
-      return canUseFFmpeg;
-    }
     getFFmpeg();
-    return (canUseFFmpeg = true);
-  } catch {
-    return (canUseFFmpeg = false);
+    return null;
+  } catch (err) {
+    return err.message;
   }
 };
