@@ -8,23 +8,22 @@ import { Header } from "../components/header";
 import { Content } from "../components/content";
 import { History } from "../components/history";
 import { Footer } from "../components/footer";
-import { useVideoFile } from "../lib/hooks/use_video_file";
 import { useConvertSetting } from "../lib/hooks/use_convert_setting";
+import { Settings } from "../components/settings";
+import { Status } from "../components/status";
 
 const Home = () => {
   const [status, setStatus] = useState(null);
-  const { convertSetting, updateConvertSetting } = useConvertSetting();
-  const { setVideoFile, videoFile, videoUrl } = useVideoFile();
+  const { setVideoFile, videoFile, videoUrl, convertSetting, updateConvertSetting } = useConvertSetting();
   const { addHistory, histories } = useHistory();
 
-  const { frameRate } = convertSetting;
   const FFmpegErrorMessage = checkCanUseFFmpeg();
 
   const transcode = async (): Promise<void> => {
     if (status != null || videoFile == null) return;
     setStatus("Converting...");
     try {
-      const gifData = await convVideoToGif(videoFile, { frameRate });
+      const gifData = await convVideoToGif(videoFile, convertSetting);
       setStatus(null);
       await addHistory(gifData);
     } catch (err) {
@@ -58,32 +57,14 @@ const Home = () => {
           {videoFile == null ? (
             <SelectVideoFile onVideoFileSelected={setVideoFile}/>
           ) : (
-            <>
-              <div>
-                <h2>Frame Rate</h2>
-                <div>
-                  <input
-                    type="range" min="1" max="30" step="1"
-                    value={frameRate}
-                    onChange={(event) => updateConvertSetting({ frameRate: parseInt(event.target.value, 10) })}
-                  />
-                </div>
-                <div>{frameRate}FPS</div>
-              </div>
-              <div>
-                <button onClick={transcode} disabled={status != null || videoFile == null}>
-                  Convert
-                </button>
-              </div>
-            </>
+            <Settings
+              convertSetting={convertSetting}
+              updateConvertSetting={updateConvertSetting}
+              videoUrl={videoUrl}
+              onConvert={transcode}
+            />
           )}
-          <>
-            {status != null && (
-              <section>
-                <div>{status}</div>
-              </section>
-            )}
-          </>
+          <Status>{status}</Status>
         </Content>
         <History histories={histories}/>
         <Footer/>

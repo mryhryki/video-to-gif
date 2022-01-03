@@ -23,7 +23,7 @@ const NoHistory = styled.div`
   font-size: 18px;
   margin: 24px 16px;
   text-align: center;
-`
+`;
 
 const Card = styled.div`
   margin: 24px 16px;
@@ -60,33 +60,31 @@ export const History: React.FC<Props> = (props) => {
   if (histories.length === 0) {
     return (
       <Wrapper>
-        <HistoryTitle>History</HistoryTitle>
-        <NoHistory>(No History)</NoHistory>
+        <HistoryTitle>Converted GIFs</HistoryTitle>
+        <NoHistory>(No converted GIFs)</NoHistory>
       </Wrapper>
     );
   }
 
   return (
     <Wrapper>
-      <HistoryTitle>History</HistoryTitle>
-      {
-        histories.map((history) => {
-          const gifUrl = gifDataToUrl(history.gifData, history.datetime);
-          return (
-            <Card key={history.datetime}>
-              <Title>{history.datetime}</Title>
-              <GifWrapper>
-                <Gif alt={`Converted at ${history.datetime}`} src={gifUrl} decoding="async" loading="lazy"/>
-              </GifWrapper>
-              <Footer>
-                <a href={gifUrl} download={`${history.datetime.replace(/[^0-9]/g, "")}.gif`}>Download&#x2b07;</a>
-                {" "}
-                <a href={gifUrl} target="_blank">Open&#x2197;</a>
-              </Footer>
-            </Card>
-          );
-        })
-      }
+      <HistoryTitle>Converted GIFs</HistoryTitle>
+      {histories.map((history) => {
+        const gifUrl = gifDataToUrl(history.gifData, history.datetime);
+        return (
+          <Card key={history.datetime}>
+            <Title>{history.datetime}</Title>
+            <GifWrapper>
+              <Gif alt={`Converted at ${history.datetime}`} src={gifUrl} decoding="async" loading="lazy"/>
+            </GifWrapper>
+            <Footer>
+              <a href={gifUrl} download={`${history.datetime.replace(/[^0-9]/g, "")}.gif`}>Download&#x2b07;</a>
+              {" "}
+              <a href={gifUrl} target="_blank">Open&#x2197;</a>
+            </Footer>
+          </Card>
+        );
+      })}
     </Wrapper>
   );
 };
