@@ -18,10 +18,11 @@ const loadFFmpeg = async () => {
   return ffmpeg;
 };
 
-export const convVideoToGif = async (file, options) => {
-  if (file == null) {
-    return;
-  }
+interface Options {
+  frameRate: number;
+}
+
+export const convVideoToGif = async (file: File, options: Options): Promise<Buffer> => {
   const ffmpeg = await loadFFmpeg();
   const { fetchFile } = getFFmpeg();
   ffmpeg.FS("writeFile", file.name, await fetchFile(file));
@@ -32,5 +33,18 @@ export const convVideoToGif = async (file, options) => {
     "-vf", "fade=t=in:st=0:d=0.05",
     "output.gif",
   );
-  return URL.createObjectURL(new Blob([ffmpeg.FS("readFile", "output.gif").buffer], { type: "image/gif" }));
+  return ffmpeg.FS("readFile", "output.gif").buffer;
+};
+
+let canUseFFmpeg: boolean | null = null;
+export const checkCanUseFFmpeg = (): boolean => {
+  try {
+    if (canUseFFmpeg != null) {
+      return canUseFFmpeg;
+    }
+    getFFmpeg();
+    return (canUseFFmpeg = true);
+  } catch {
+    return (canUseFFmpeg = false);
+  }
 };

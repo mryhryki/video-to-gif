@@ -1,33 +1,41 @@
-import Head from 'next/head'
-import {useState, useEffect} from 'react'
-import styles from '../styles/index.module.css'
-import {convVideoToGif} from "../lib/ffmpeg";
+import Head from "next/head";
 import Unsupported from "../components/unsupported";
+import styles from "../styles/index.module.css";
+import { checkCanUseFFmpeg, convVideoToGif } from "../lib/ffmpeg";
+import { useHistory } from "../lib/hooks/use_history";
+import { useEffect, useState } from "react";
+import { gifDataToUrl } from "../lib/buffer_to_url";
 
 const Home = () => {
-  const [support, setSupport] = useState(false)
-  const [file, setFile] = useState(null)
-  const [frameRate, setFrameRate] = useState(10)
-  const [status, setStatus] = useState(null)
-  const [gifUrl, setGifUrl] = useState('')
+  const [file, setFile] = useState(null);
+  const [frameRate, setFrameRate] = useState(10);
+  const [status, setStatus] = useState(null);
+  const [gifUrl, setGifUrl] = useState("");
+  const { addHistory, histories } = useHistory();
 
-  useEffect(() => setSupport('SharedArrayBuffer' in window), [])
+  const support = checkCanUseFFmpeg();
 
-  const transcode = () => {
-    if (status == null && file != null) {
-      setGifUrl('')
-      setStatus('Converting...')
-      convVideoToGif(file, {frameRate})
-        .then((url) => {
-          setStatus(null)
-          setGifUrl(url)
-        })
-        .catch((err) => {
-          setStatus(`ERROR: ${err.message}`)
-          console.error(err)
-        })
+  useEffect(() => {
+    const history = histories[0];
+    if (history == null) return;
+    const { gifData } = history;
+    setGifUrl(gifDataToUrl(gifData));
+  }, [histories]);
+
+  const transcode = async (): Promise<void> => {
+    if (status != null || file == null) return;
+    setGifUrl("");
+    setStatus("Converting...");
+    try {
+      const gifData = await convVideoToGif(file, { frameRate });
+      setStatus(null);
+      setGifUrl(gifDataToUrl(gifData));
+      await addHistory(gifData);
+    } catch (err) {
+      setStatus(`ERROR: ${err.message}`);
+      console.error(err);
     }
-  }
+  };
 
   return (
     <>
@@ -83,7 +91,7 @@ const Home = () => {
                   <div className={styles.status}>{status}</div>
                 </section>
               )}
-              {gifUrl !== '' && (
+              {gifUrl !== "" && (
                 <section className={styles.output}>
                   <img className={styles.gif} alt="Output GIF" src={gifUrl}/>
                   <a className={styles.button} href={gifUrl} download={`${file?.name ?? "image"}.gif`}>Download GIF</a>
@@ -95,7 +103,7 @@ const Home = () => {
       </div>
 
       <footer className={styles.footer}>
-        &copy; 2020{' '}
+        &copy; 2020{" "}
         <a
           href="https://mryhryki.com/"
           target="_blank"
@@ -104,7 +112,7 @@ const Home = () => {
         >mryhryki</a>
       </footer>
     </>
-  )
-}
+  );
+};
 
 export default Home;

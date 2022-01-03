@@ -7,8 +7,8 @@ export interface History {
 }
 
 let database: Dexie | null = null;
-const db = new Dexie("gif_history");
-db.version(1).stores({ gif_history: "&datetime" });
+const db = new Dexie("video_to_gif");
+db.version(1).stores({ histories: "&datetime" });
 
 export const initIndexedDb = async (): Promise<boolean> =>
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
