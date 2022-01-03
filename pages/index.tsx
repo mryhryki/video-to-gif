@@ -24,7 +24,7 @@ const Home = () => {
     if (status != null || videoFile == null) return;
     setStatus("Converting...");
     try {
-      const gifData = await convVideoToGif(videoFile, { frameRate });
+      const gifData = await convVideoToGif(videoFile, convertSetting);
       setStatus(null);
       await addHistory(gifData);
     } catch (err) {
@@ -60,15 +60,32 @@ const Home = () => {
           ) : (
             <>
               <div>
-                <h2>Frame Rate</h2>
                 <div>
+                  Frame Rate
                   <input
                     type="range" min="1" max="30" step="1"
-                    value={frameRate}
+                    value={convertSetting.frameRate}
                     onChange={(event) => updateConvertSetting({ frameRate: parseInt(event.target.value, 10) })}
                   />
+                  {frameRate}FPS
                 </div>
-                <div>{frameRate}FPS</div>
+                <div>
+                  <select
+                    onChange={(event) => {
+                      console.debug(event)
+                      updateConvertSetting({ sizeType: event.target.value === "height" ? "height" : "width" })
+                    }}
+                    value={convertSetting.sizeType}
+                  >
+                    <option value="width">Width</option>
+                    <option value="height">Height</option>
+                  </select>
+                  <input
+                    type="number"
+                    value={convertSetting.sizePixel}
+                    onChange={(event) => updateConvertSetting({ sizePixel: parseInt(event.target.value, 10) })}
+                  />
+                </div>
               </div>
               <div>
                 <button onClick={transcode} disabled={status != null || videoFile == null}>

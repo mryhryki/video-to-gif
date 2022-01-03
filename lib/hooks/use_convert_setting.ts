@@ -1,12 +1,11 @@
 import { useState } from "react";
 import { getIntegerInRange } from "../checker";
-
-interface ConvertSetting {
-  frameRate: number;
-}
+import { ConvertSetting } from "../ffmpeg";
 
 const DefaultConvertSetting: ConvertSetting = {
   frameRate: 10,
+  sizeType: "width",
+  sizePixel: -1,
 };
 
 interface UseConvertSettingState {
@@ -21,6 +20,7 @@ export const useConvertSetting = (): UseConvertSettingState => {
     setConvertSetting((prev) => {
       const next: ConvertSetting = { ...prev, ...partialConvertSetting };
       next.frameRate = getIntegerInRange(next.frameRate, 1, 30);
+      next.sizePixel = getIntegerInRange(next.sizePixel, -1, 10000);
       return next;
     });
   };
