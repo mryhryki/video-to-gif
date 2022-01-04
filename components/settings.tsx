@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ConvertSetting } from "../lib/ffmpeg";
 
 const Table = styled.table`
@@ -28,7 +28,7 @@ const Button = styled.button`
   font-size: 20px;
   font-weight: bold;
   padding: 8px 24px;
-`
+`;
 
 interface Props {
   convertSetting: ConvertSetting;
@@ -41,13 +41,23 @@ export const Settings: React.FC<Props> = (props) => {
   const { videoUrl, convertSetting, updateConvertSetting, onConvert } = props;
   const { frameRate, sizePixel, sizeType, rangeStart, rangeEnd } = convertSetting;
 
-  return (
+  const [videoRef, setVideoRef] = useState<HTMLVideoElement | null>(null);
+  useEffect(() => {
+    if (videoRef == null) return;
+    const onTimeUpdate = () => {
+      const rangeEnd = Math.round(videoRef.currentTime * 100) / 100
+      updateConvertSetting({ rangeEnd });
+    }
+    videoRef.addEventListener("timeupdate", onTimeUpdate);
+    return () => videoRef.removeEventListener("timeupdate", onTimeUpdate);
+  }, [videoRef]);
 
+  return (
     <Table>
       {videoUrl != null ? (
         <tr>
           <th colSpan={2}>
-            <PreviewVideo src={videoUrl} controls muted/>
+            <PreviewVideo ref={setVideoRef} src={videoUrl} controls muted/>
           </th>
         </tr>
       ) : null}
