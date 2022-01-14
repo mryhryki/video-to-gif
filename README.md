@@ -1,6 +1,6 @@
 # video-to-gif
 
-This is an experimental tool that allows you to convert video to GIF using only your browser with ffmpeg.wasm.
+This is an experimental web app that convert video to GIF using only browser with [ffmpeg.wasm](https://github.com/ffmpegwasm/ffmpeg.wasm).
 
 https://video-to-gif.vercel.app/
 
