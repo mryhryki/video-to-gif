@@ -45,7 +45,7 @@ const Home = () => {
         <meta name="twitter:card" content="summary"/>
         <meta name="twitter:title" content="Video to GIF"/>
         <meta name="twitter:description" content="Convert video to gif on browser. powered by ffmpeg.wasm."/>
-        <meta name="twitter:image" content="https://video-to-gif.vercel.app/logo.png"/>
+        <meta name="twitter:image" content="https://video-to-gif.vercel.app/logo_1200x1200.png"/>
         <meta name="twitter:site" content="@mryhryki"/>
         <title>Video to GIF</title>
         <script src="/ffmpeg.min.js"/>
