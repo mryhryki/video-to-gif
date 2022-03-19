@@ -5,18 +5,21 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "lint": "mryhryki-lint",
+    "lint:fix": "mryhryki-lint-fix",
+    "type": "tsc",
+    "type:watch": "tsc --watch"
   },
   "dependencies": {
+    "@mryhryki/lint": "^0.0.6",
+    "@types/react": "^17.0.41",
     "@types/styled-components": "^5.1.24",
     "dexie": "^3.2.1",
     "next": "12.1.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
-    "styled-components": "^5.3.3"
-  },
-  "devDependencies": {
-    "@types/react": "^17.0.41",
+    "styled-components": "^5.3.3",
     "typescript": "^4.6.2"
   }
 }

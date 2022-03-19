@@ -1,0 +1,33 @@
+extends:
+  - plugin:@typescript-eslint/recommended
+  - plugin:react/recommended
+  - plugin:react-hooks/recommended
+  - prettier
+plugins:
+  - jest
+  - "@typescript-eslint"
+  - prettier
+  - react
+env:
+  browser: true
+  commonjs: true
+  es2020: true
+  jest/globals: true
+  node: true
+globals:
+  Atomics: readonly
+  SharedArrayBuffer: readonly
+parser: "@typescript-eslint/parser"
+parserOptions:
+  ecmaFeatures:
+    jsx: true
+  ecmaVersion: 11
+  sourceType: module
+rules:
+  prettier/prettier: error
+  react/prop-types: 'off'
+  'react-hooks/exhaustive-deps': 'off'
+  '@typescript-eslint/no-var-requires': 'off'
+settings:
+  react:
+    version: detect
