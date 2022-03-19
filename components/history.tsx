@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { History as HistoryType } from "../lib/hooks/use_history";
 import { gifDataToUrl } from "../lib/buffer_to_url";
+import { getDateTime } from "../lib/datetime";
 
 const Wrapper = styled.main`
   border-left: 1px solid silver;
@@ -71,14 +72,17 @@ export const History: React.FC<Props> = (props) => {
       <HistoryTitle>Converted GIFs</HistoryTitle>
       {histories.map((history) => {
         const gifUrl = gifDataToUrl(history.gifData, history.datetime);
+        const { year, month, day, hour, minute, second } = getDateTime(new Date(history.datetime));
         return (
           <Card key={history.datetime}>
-            <Title>{history.datetime}</Title>
+            <Title>
+              {year}-{month}-{day} {hour}:{minute}:{second}
+            </Title>
             <GifWrapper>
               <Gif alt={`Converted at ${history.datetime}`} src={gifUrl} decoding="async" loading="lazy" />
             </GifWrapper>
             <Footer>
-              <a href={gifUrl} download={`${history.datetime.replace(/[^0-9]/g, "")}.gif`}>
+              <a href={gifUrl} download={`${year}-${month}-${day}-${hour}-${minute}-${second}.gif`}>
                 Download&#x2b07;
               </a>{" "}
               <a href={gifUrl} target="_blank" rel="noreferrer">
