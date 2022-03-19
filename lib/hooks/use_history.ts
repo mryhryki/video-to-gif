@@ -3,7 +3,7 @@ import Dexie from "dexie";
 
 export interface History {
   datetime: string;
-  gifData: Buffer;
+  gifData: Blob;
 }
 
 let database: Dexie | null = null;
@@ -27,7 +27,7 @@ export const initIndexedDb = async (): Promise<boolean> =>
 export const getHistoriesTable = (): Dexie.Table<History, string> | null => (database as any)?.histories ?? null;
 const MAX_HISTORY = 30;
 
-const saveHistory = async (gifData: Buffer, datetime: string): Promise<boolean> => {
+const saveHistory = async (gifData: Blob, datetime: string): Promise<boolean> => {
   const histories = getHistoriesTable();
   if (histories == null) return false;
   await histories.put({ datetime, gifData });
@@ -44,7 +44,7 @@ const listHistory = async (): Promise<Array<History>> => {
 };
 
 interface UseHistoryState {
-  addHistory: (gifData: Buffer) => Promise<void>;
+  addHistory: (gifData: Blob) => Promise<void>;
   canUseHistory: boolean;
   histories: History[];
 }
@@ -53,10 +53,12 @@ export const useHistory = (): UseHistoryState => {
   const [canUseIndexedDb, setCanUseIndexedDb] = useState(false);
   const [histories, setHistories] = useState<History[]>([]);
 
-  const addHistory = async (gifData: Buffer): Promise<void> => {
+  const addHistory = async (gifData: Blob): Promise<void> => {
     if (!canUseIndexedDb) return;
     const datetime = new Date().toISOString();
-    saveHistory(gifData, datetime).then(() => listHistory()).then(setHistories);
+    saveHistory(gifData, datetime)
+      .then(() => listHistory())
+      .then(setHistories);
   };
 
   useEffect(() => {

@@ -4,7 +4,7 @@ interface Cache {
 
 const cache: Cache = {};
 
-export const gifDataToUrl = (gifData: Buffer, cacheKey?: string): string => {
+export const gifDataToUrl = (gifData: Blob, cacheKey?: string): string => {
   if (cacheKey != null && cache[cacheKey] != null) {
     return cache[cacheKey];
   }
