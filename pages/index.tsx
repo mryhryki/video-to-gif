@@ -1,3 +1,4 @@
+import React from "react";
 import Head from "next/head";
 import { DropOrPasteVideo } from "../components/drop_or_paste_video";
 import { SelectVideoFile } from "../components/select_video_file";
@@ -35,27 +36,27 @@ const Home = () => {
   return (
     <>
       <Head>
-        <meta property="og:title" content="Video to GIF"/>
-        <meta property="og:description" content="Convert video to gif on browser. powered by ffmpeg.wasm."/>
-        <meta property="og:image" content="https://video-to-gif.vercel.app/logo_1200x1200.png"/>
-        <meta property="og:url" content="https://video-to-gif.vercel.app/"/>
-        <meta property="og:site_name" content="Video to GIF"/>
-        <meta property="og:locale" content="ja-JP"/>
-        <meta property="og:type" content="website"/>
-        <meta name="twitter:card" content="summary"/>
-        <meta name="twitter:title" content="Video to GIF"/>
-        <meta name="twitter:description" content="Convert video to gif on browser. powered by ffmpeg.wasm."/>
-        <meta name="twitter:image" content="https://video-to-gif.vercel.app/logo_1200x1200.png"/>
-        <meta name="twitter:site" content="@mryhryki"/>
+        <meta property="og:title" content="Video to GIF" />
+        <meta property="og:description" content="Convert video to gif on browser. powered by ffmpeg.wasm." />
+        <meta property="og:image" content="https://video-to-gif.vercel.app/logo_1200x1200.png" />
+        <meta property="og:url" content="https://video-to-gif.vercel.app/" />
+        <meta property="og:site_name" content="Video to GIF" />
+        <meta property="og:locale" content="ja-JP" />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content="Video to GIF" />
+        <meta name="twitter:description" content="Convert video to gif on browser. powered by ffmpeg.wasm." />
+        <meta name="twitter:image" content="https://video-to-gif.vercel.app/logo_1200x1200.png" />
+        <meta name="twitter:site" content="@mryhryki" />
         <title>Video to GIF</title>
-        <script src="/ffmpeg.min.js"/>
+        <script src="/ffmpeg.min.js" />
       </Head>
 
       <DropOrPasteVideo onVideoFileDrop={setVideoFile}>
-        <Header/>
+        <Header />
         <Content errorMessage={FFmpegErrorMessage}>
           {videoFile == null ? (
-            <SelectVideoFile onVideoFileSelected={setVideoFile}/>
+            <SelectVideoFile onVideoFileSelected={setVideoFile} />
           ) : (
             <Settings
               convertSetting={convertSetting}
@@ -66,8 +67,8 @@ const Home = () => {
           )}
           <Status>{status}</Status>
         </Content>
-        <History histories={histories}/>
-        <Footer/>
+        <History histories={histories} />
+        <Footer />
       </DropOrPasteVideo>
     </>
   );

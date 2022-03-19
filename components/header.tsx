@@ -1,3 +1,4 @@
+import React from "react";
 import styled from "styled-components";
 
 const StyledHeader = styled.header`
@@ -19,11 +20,9 @@ const Logo = styled.img`
   width: 48px;
 `;
 
-const Title = styled.h1``;
-
 export const Header = () => (
   <StyledHeader>
-    <Logo height="48" width="48" src="/logo_96x96.png" alt="Logo"/>
-    <Title>Video to GIF</Title>
+    <Logo height="48" width="48" src="/logo_96x96.png" alt="Logo" />
+    <h1>Video to GIF</h1>
   </StyledHeader>
 );

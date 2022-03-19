@@ -18,9 +18,5 @@ export const Status: React.FC<Props> = (props) => {
     return null;
   }
 
-  return (
-    <Wrapper>
-      Status: {children}
-    </Wrapper>
-  );
+  return <Wrapper>Status: {children}</Wrapper>;
 };

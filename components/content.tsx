@@ -1,6 +1,5 @@
-import styled from "styled-components";
 import React from "react";
-import { error } from "next/dist/build/output/log";
+import styled from "styled-components";
 
 const Wrapper = styled.main`
   bottom: 36px;
@@ -38,9 +37,5 @@ export const Content: React.FC<Props> = (props) => {
     );
   }
 
-  return (
-    <Wrapper>
-      {children}
-    </Wrapper>
-  );
+  return <Wrapper>{children}</Wrapper>;
 };

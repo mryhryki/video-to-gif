@@ -1,5 +1,5 @@
-import styled from "styled-components";
 import React from "react";
+import styled from "styled-components";
 import { History as HistoryType } from "../lib/hooks/use_history";
 import { gifDataToUrl } from "../lib/buffer_to_url";
 
@@ -75,12 +75,15 @@ export const History: React.FC<Props> = (props) => {
           <Card key={history.datetime}>
             <Title>{history.datetime}</Title>
             <GifWrapper>
-              <Gif alt={`Converted at ${history.datetime}`} src={gifUrl} decoding="async" loading="lazy"/>
+              <Gif alt={`Converted at ${history.datetime}`} src={gifUrl} decoding="async" loading="lazy" />
             </GifWrapper>
             <Footer>
-              <a href={gifUrl} download={`${history.datetime.replace(/[^0-9]/g, "")}.gif`}>Download&#x2b07;</a>
-              {" "}
-              <a href={gifUrl} target="_blank">Open&#x2197;</a>
+              <a href={gifUrl} download={`${history.datetime.replace(/[^0-9]/g, "")}.gif`}>
+                Download&#x2b07;
+              </a>{" "}
+              <a href={gifUrl} target="_blank" rel="noreferrer">
+                Open&#x2197;
+              </a>
             </Footer>
           </Card>
         );

@@ -15,7 +15,7 @@ interface Props {
 }
 
 export const DropOrPasteVideo: React.FC<Props> = (props) => {
-  const {  onVideoFileDrop, children } = props;
+  const { onVideoFileDrop, children } = props;
 
   return (
     <Wrapper

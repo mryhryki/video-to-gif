@@ -5,7 +5,8 @@ import { ConvertSetting } from "../lib/ffmpeg";
 const Table = styled.table`
   margin: 16px auto;
 
-  th, td {
+  th,
+  td {
     padding: 6px 8px;
   }
 
@@ -45,9 +46,9 @@ export const Settings: React.FC<Props> = (props) => {
   useEffect(() => {
     if (videoRef == null) return;
     const onTimeUpdate = () => {
-      const rangeEnd = Math.round(videoRef.currentTime * 100) / 100
+      const rangeEnd = Math.round(videoRef.currentTime * 100) / 100;
       updateConvertSetting({ rangeEnd });
-    }
+    };
     videoRef.addEventListener("timeupdate", onTimeUpdate);
     return () => videoRef.removeEventListener("timeupdate", onTimeUpdate);
   }, [videoRef]);
@@ -57,7 +58,7 @@ export const Settings: React.FC<Props> = (props) => {
       {videoUrl != null ? (
         <tr>
           <th colSpan={2}>
-            <PreviewVideo ref={setVideoRef} src={videoUrl} controls muted/>
+            <PreviewVideo ref={setVideoRef} src={videoUrl} controls muted />
           </th>
         </tr>
       ) : null}
@@ -65,7 +66,10 @@ export const Settings: React.FC<Props> = (props) => {
         <th>Frame Rate</th>
         <td>
           <input
-            type="range" min="1" max="30" step="1"
+            type="range"
+            min="1"
+            max="30"
+            step="1"
             value={frameRate}
             onChange={(event) => updateConvertSetting({ frameRate: parseInt(event.target.value, 10) })}
           />

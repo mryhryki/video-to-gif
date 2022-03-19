@@ -34,7 +34,7 @@ export const useConvertSetting = (): UseConvertSettingState => {
 
   const setVideoFile = (videoFile: File) => {
     _setVideoFile(videoFile);
-    const url = URL.createObjectURL(videoFile)
+    const url = URL.createObjectURL(videoFile);
     setVideoUrl(url);
     const video = document.createElement("video");
     video.addEventListener("loadedmetadata", () => updateConvertSetting({ rangeStart: 0, rangeEnd: video.duration }));
