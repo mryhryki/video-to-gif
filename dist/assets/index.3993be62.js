@@ -62,6 +62,7 @@ Error generating stack: `+o.message+`
   justify-content: center;
   margin: 4px;
   overflow: hidden;
+  height: calc(100% - 8px);
 `,a0=_e.div`
   font-size: 20px;
   line-height: 28px;
@@ -209,4 +210,4 @@ From previous: `);return this._state!==null&&(this._stack=t),t}finally{qa=!1}}},
     text-align: center;
   }
 `;Jy.render(z.createElement(z.StrictMode,null,z.createElement(yw,null),z.createElement(mw,null)),document.getElementById("root"));
-//# sourceMappingURL=index.8f43d8ac.js.map
+//# sourceMappingURL=index.3993be62.js.map
