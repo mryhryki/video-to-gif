@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { History as HistoryType } from "../lib/hooks/use_history";
+import { History as HistoryType } from "../hooks/use_history";
 import { gifDataToUrl } from "../lib/buffer_to_url";
 import { getDateTime } from "../lib/datetime";
 

@@ -8,4 +8,10 @@ export default defineConfig({
     sourcemap: true,
   },
   plugins: [reactRefresh()],
+  server: {
+    headers: {
+      "Cross-Origin-Opener-Policy": "same-origin",
+      "Cross-Origin-Embedder-Policy": "require-corp",
+    },
+  },
 });
