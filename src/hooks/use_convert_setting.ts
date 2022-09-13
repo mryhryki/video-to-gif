@@ -3,7 +3,7 @@ import { getIntegerInRange } from "../lib/checker";
 import { ConvertSetting } from "../lib/ffmpeg";
 
 const DefaultConvertSetting: ConvertSetting = {
-  frameRate: 10,
+  frameRate: 15,
   sizeType: "width",
   sizePixel: -1,
   rangeStart: 0,
