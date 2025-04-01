@@ -10,4 +10,4 @@ https://video-to-gif.vercel.app/
 
 ## Blog (Japanese)
 
-[ffmpeg.wasm を使ってGIF動画を作れるWebアプリを作って遊んでみた](https://zenn.dev/mryhryki/articles/2020-12-18-ffmepg-wasm)
+[ffmpeg.wasm を使ってGIF動画を作れるWebアプリを作って遊んでみた](https://zenn.dev/hyiromori/articles/ca4bbf1f67ae04652398)

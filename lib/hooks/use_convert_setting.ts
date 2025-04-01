@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { getIntegerInRange } from "../lib/checker";
-import { ConvertSetting } from "../lib/ffmpeg";
+import { getIntegerInRange } from "../checker";
+import { ConvertSetting } from "../ffmpeg";
 
 const DefaultConvertSetting: ConvertSetting = {
   frameRate: 15,

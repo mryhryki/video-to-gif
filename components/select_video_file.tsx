@@ -27,7 +27,6 @@ const Wrapper = styled.div`
   justify-content: center;
   margin: 4px;
   overflow: hidden;
-  height: calc(100% - 8px);
 `;
 const Message = styled.div`
   font-size: 20px;

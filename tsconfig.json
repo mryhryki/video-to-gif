@@ -1,24 +1,30 @@
 {
   "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
-    "jsxFactory": "React.createElement",
-    "esModuleInterop": true,
-    "jsx": "preserve",
+    "target": "es5",
     "lib": [
-      "esnext",
-      "dom"
+      "dom",
+      "dom.iterable",
+      "esnext"
     ],
-    "noEmit": true,
-    "noImplicitAny": true,
+    "allowJs": true,
     "skipLibCheck": true,
-    "strict": true
+    "strict": false,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "incremental": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve"
   },
   "include": [
+    "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
   ],
   "exclude": [
-    "node_modules/**",
-    "**/*.test.ts"
+    "node_modules"
   ]
 }
