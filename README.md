@@ -2,7 +2,7 @@
 
 This is an experimental web app that convert video to GIF using only browser with [ffmpeg.wasm](https://github.com/ffmpegwasm/ffmpeg.wasm).
 
-Demo: https://mryhryki.com/app/video-to-gif/index.html
+https://video-to-gif.vercel.app/
 
 ## Demo
 
@@ -10,4 +10,4 @@ Demo: https://mryhryki.com/app/video-to-gif/index.html
 
 ## Blog (Japanese)
 
-[ffmpeg.wasm を使ってGIF動画を作れるWebアプリを作って遊んでみた](https://zenn.dev/mryhryki/articles/2020-12-18-ffmepg-wasm)
+[ffmpeg.wasm を使ってGIF動画を作れるWebアプリを作って遊んでみた](https://zenn.dev/hyiromori/articles/ca4bbf1f67ae04652398)

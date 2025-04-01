@@ -22,7 +22,7 @@ const Logo = styled.img`
 
 export const Header = () => (
   <StyledHeader>
-    <Logo height="48" width="48" src="./logo_96x96.png" alt="Logo" />
+    <Logo height="48" width="48" src="/logo_96x96.png" alt="Logo" />
     <h1>Video to GIF</h1>
   </StyledHeader>
 );

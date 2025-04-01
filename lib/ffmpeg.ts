@@ -8,10 +8,8 @@ const getFFmpeg = () => {
   return (window as any).FFmpeg;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-let ffmpeg: any | null = null;
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const loadFFmpeg = async (): Promise<any> => {
+let ffmpeg = null;
+const loadFFmpeg = async () => {
   if (ffmpeg == null) {
     const { createFFmpeg } = getFFmpeg();
     ffmpeg = createFFmpeg({ log: true });
@@ -58,6 +56,6 @@ export const checkCanUseFFmpeg = (): /* errorMessage: */ string | null => {
     getFFmpeg();
     return null;
   } catch (err) {
-    return `${err}`;
+    return err.message;
   }
 };
