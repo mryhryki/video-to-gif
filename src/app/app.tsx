@@ -12,7 +12,7 @@ import { useConvertSetting } from "./hooks/use_convert_setting";
 import { Settings } from "./components/settings";
 import { Status } from "./components/status";
 
-export const App = () => {
+export default function Page() {
   const [status, setStatus] = useState<string | null>(null);
   const { setVideoFile, videoFile, videoUrl, convertSetting, updateConvertSetting } = useConvertSetting();
   const { addHistory, histories } = useHistory();
@@ -52,4 +52,4 @@ export const App = () => {
       <Footer />
     </DropOrPasteVideo>
   );
-};
+}

@@ -1,4 +1,25 @@
+"use client"
+
 import { ReactNode } from "react";
+import { createGlobalStyle} from "styled-components"
+
+const GlobalStyle = createGlobalStyle`
+  html,
+  body {
+    padding: 0;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  h1 {
+    text-align: center;
+  }
+`;
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
@@ -19,7 +40,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <meta name="twitter:site" content="@mryhryki" />
         <title>Video to GIF</title>
       </head>
-      <body>{children}</body>
+      <body>
+        <GlobalStyle />
+        {children}
+      </body>
     </html>
   );
 }
