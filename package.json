@@ -3,13 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "vite build",
-    "dev": "vite",
-    "deploy": "run-s lint type build sync",
-    "sync": "aws s3 sync ./dist/ s3://mryhryki-cdn/app/video-to-gif/ --no-progress --exclude '*.DS_Store*'",
-    "preview": "vite preview",
-    "lint": "mryhryki-lint",
-    "lint:fix": "mryhryki-lint-fix",
+    "build": "next build",
+    "dev": "next dev",
+    "lint": "next lint",
+    "start": "next start",
     "type": "tsc",
     "type:watch": "tsc --watch"
   },
