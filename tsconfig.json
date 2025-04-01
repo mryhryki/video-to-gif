@@ -11,11 +11,24 @@
     "noEmit": true,
     "noImplicitAny": true,
     "skipLibCheck": true,
-    "strict": true
+    "strict": true,
+    "target": "ES2017",
+    "allowJs": true,
+    "incremental": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
   "include": [
     "**/*.ts",
-    "**/*.tsx"
+    "**/*.tsx",
+    ".next/types/**/*.ts"
   ],
   "exclude": [
     "node_modules/**",
